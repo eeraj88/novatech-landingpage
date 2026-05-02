@@ -7,6 +7,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
+// GET / - Serve index.html
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: '.' });
+});
+
 // In-Memory Lead Storage
 let leadsStore = [];
 
@@ -111,6 +116,11 @@ app.post('/api/chat', async (req, res) => {
 // GET /api/leads/recent - Gibt gespeicherte Leads zurück
 app.get('/api/leads/recent', async (req, res) => {
     res.json({ leads: leadsStore });
+});
+
+// GET / - Serve index.html for all other routes
+app.get('*', (req, res) => {
+    res.sendFile('index.html', { root: '.' });
 });
 
 const PORT = process.env.PORT || 3000;
