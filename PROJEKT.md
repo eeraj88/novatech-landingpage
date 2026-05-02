@@ -181,3 +181,94 @@ Gemini CLI hat `index.html` durch mehrfache destruktive `WriteFile`-Aufrufe von 
 
 ---
 *Zuletzt aktualisiert: 2026-05-02 — Services Grid optimiert, Canvas verlangsamt, Overlay entfernt, frontend-design Skill installiert*
+
+## 🔧 Entwicklungs-Protokoll (2026-05-02)
+
+### Frontend-Design Optimierung
+- **8pt Grid Spacing System** implementiert (--space-1 bis --space-12)
+- **Premium Hover States** — Buttons mit shimmer Effekt, cubic-bezier transitions
+- **Scroll Animationen** — fade-up Klasse mit IntersectionObserver, stagger delays (0.1s-0.5s)
+- **Canvas Animation entfernt** — Leistungen Hintergrund-Animation komplett gelöscht
+- **Services Sektion restrukturiert** — 6 Cards → 4 Power-Cards (2x2 Grid, übersichtlicher)
+  - Cloud & Infrastruktur
+  - Software-Lösungen
+  - Data & Analytics
+  - Security & Support
+
+### Hardware Slider Optimierung
+- **Bessere Produktbilder:**
+  - ErgoStand Pro → Unsplash high-quality photo
+  - SecureCase 15 → korrigiert auf funktionierende URL
+- **Slider Navigation verbessert:**
+  - Buttons vergrößert (52px) mit Scale Hover (1.12x)
+  - Shimmer Overlay Effekt
+  - Dots Indicators (3 Dots für 9 Cards)
+  - Smooth Scrolling mit auto-update
+
+### GitHub & Vercel Deployment
+- **.gitignore erstellt** — .env, node_modules, Backups geschützt
+- **.env.example erstellt** — Template für andere User
+- **README.md erstellt** — Portfolio-ready mit vollständiger Dokumentation
+- **GitHub Repo:** https://github.com/eeraj88/novatech-landingpage
+- **Portfolio Integration:** NovaTech als Projekt #7 hinzugefügt (Multi-Kategorien: AI & Automation, Full-Stack)
+
+### ⚠️ Vercel Deployment Probleme (GELÖST)
+**Problem:** "Cannot GET /" / 404 Error auf Vercel
+**Ursache:** Express Server + Vercel Serverless Functions Architektur-Konflikt
+
+**Lösungsversuche:**
+1. ❌ vercel.json mit builds/routes → 404
+2. ❌ Serverless Functions (/api/*.js) → 404
+3. ❌ vercel.json Rewrites → 404
+4. ❌ public/ Ordner mit Rewrites → 404
+5. ✅ **Vercel Express mit module.exports** → ERFOLGREICH
+
+**Finale Lösung:**
+```javascript
+// server.js Ende
+if (process.env.VERCEL) {
+    module.exports = app;  // Vercel
+} else {
+    app.listen(PORT, () => ...);  // Lokal
+}
+```
+
+```json
+// vercel.json
+{
+  "version": 2,
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/server.js" }
+  ]
+}
+```
+
+**Live URL:** https://novatech-landingpage.vercel.app
+
+### Portfolio Updates
+- **Multi-Kategorien Support** — Projekte können jetzt in mehreren Kategorien sein
+- **NovaTech erweitert:** ["AI & Automation", "Full-Stack"]
+- **Voice-to-CRM erweitert:** ["AI & Automation", "Full-Stack"]
+- **Wetter-App erweitert:** ["React", "Frontend"]
+- **Bookmark Manager erweitert:** ["React", "Frontend"]
+
+### Datei-Struktur
+```
+├── index.html          # Single-Page Frontend
+├── server.js           # Express Backend (Vercel + lokal)
+├── public/
+│   └── index.html      # Vercel Static Files
+├── .env                # Environment Variables (nicht committen)
+├── .env.example        # Template
+├── .gitignore          # Git Ausschlüsse
+├── vercel.json         # Vercel Konfiguration
+├── package.json        # Dependencies
+├── README.md           # Dokumentation
+└── PROJEKT.md          # Diese Datei
+```
+
+---
+*Entwicklungs-Protokoll: 2026-05-02 — Frontend-Optimierung + Vercel Deployment gelöst*
