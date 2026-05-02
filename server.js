@@ -6,6 +6,9 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Static files aus public OR root
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '.')));
 
 // GET / - Serve index.html
@@ -124,5 +127,10 @@ app.get('*', (req, res) => {
     res.sendFile('index.html', { root: '.' });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Vercel needs app export
+if (process.env.VERCEL) {
+    module.exports = app;
+} else {
+    const PORT = process.env.PORT || 3011;
+    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
