@@ -15,9 +15,5 @@
       "src": "/(.*)",
       "dest": "/server.js"
     }
-  ],
-  "env": {
-    "N8N_WEBHOOK_URL": "@n8n-webhook-url",
-    "N8N_CHAT_WEBHOOK_URL": "@n8n-chat-webhook-url"
-  }
+  ]
 }
